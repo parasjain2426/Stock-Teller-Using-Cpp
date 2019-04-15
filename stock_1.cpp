@@ -29,14 +29,14 @@ private :
 
     int itemcode ;
     char itemname[30] ;
-    float itemcost, itemprice ;
+    float itemqty, itemprice ;
 };
 void menu::main_menu(){
 	char ch;
-	while(1){
-		cout<<setw(10)<<"**************"<<"WELCOME TO STOCK TELLING SERVICE"<<"**************"<<endl;
+	while(1){ 
+		cout<<"                         WELCOME TO STOCK TELLING SERVICE                              "<<endl;
 		cout<<"1.List Of Products"<<setw(20)<<"2.Edit Product"<<setw(15)<<"0.QUIT"<<endl;
-		cout<<"___ENTER YOUR CHOICE TO PROCEED___"<<endl;
+		cout<<"-----ENTER YOUR CHOICE TO PROCEED-----"<<endl;
 		ch=getche();
 		 if (ch == '1')
         {
@@ -56,7 +56,7 @@ void menu::edit_menu(){
     while(1){
 		cout<<"********"<<setw(8)<<"EDIT MENU"<<setw(8)<<"********"<<endl;
 		cout<<"1.ADD ITEM"<<setw(25)<<"2.DELETE ITEM"<<setw(25)<<"3.MODIFY ITEM"<<setw(25)<<"0.QUIT"<<endl;
-		cout<<"___ENTER YOUR CHOICE TO PROCEED___"<<endl;
+		cout<<"-----ENTER YOUR CHOICE TO PROCEED-----"<<endl;
 		ch=getche();
 		 if (ch == '1')
         {
@@ -98,16 +98,16 @@ void product :: list_of_item(void)
     file.seekg(0) ;
     int row = 6 , found = 0 ;
     cout <<"LIST OF ITEMS"<<endl ;
-    cout <<"ITEM CODE"<<setw(20)<<"ITEM NAME"<<setw(15)<<"ITEM QTY"<<setw(15)<<"ITEM PRICE"<<endl ;
-    cout <<"***********************************************************"<<endl ;
+    cout <<"ITEM CODE"<<setw(20)<<"ITEM NAME"<<setw(15)<<"ITEM QTY"<<setw(18)<<"ITEM PRICE"<<endl ;
+    cout <<"****************************************************************"<<endl ;
     while (file.read((char *) this, sizeof(product)))
     {
        // delay(20) ;
         found = 1 ;
-        cout <<itemcode<<setw(25) ;
-        cout <<itemname<<setw(15);
-        cout <<itemcost<<setw(15);
-        cout <<itemprice<<setw(10)<<endl ;
+        cout <<itemcode<<setw(20);
+        cout <<itemname<<setw(20);
+        cout <<itemqty<<setw(20);
+        cout <<itemprice<<endl ;
     }
     if ( !found )
     {
@@ -123,7 +123,7 @@ void product :: list_of_item(void)
 void product :: add_item(void)
 {
     int tcode, valid ;
-    char ch, t_itemcost[10], t_itemprice[10] ;
+    char ch, t_itemqty[10], t_itemprice[10] ;
     tcode = last_code() ;
     tcode++ ;
     do
@@ -155,11 +155,11 @@ void product :: add_item(void)
         {
             cout <<"ENTER ITEM QTY TO ADD IN THE MENU"<<endl ;
             cout <<"Item Qty : "<<endl ;
-            gets(t_itemcost) ;
-            itemcost = atof(t_itemcost) ;
-            if (t_itemcost[0] == '0')
+            gets(t_itemqty) ;
+            itemqty = atof(t_itemqty) ;
+            if (t_itemqty[0] == '0')
                 return ;
-            if (itemcost < 1 || itemcost > 800)
+            if (itemqty < 1 || itemqty > 800)
             {
                 valid = 0;
                 cout <<"\7 Range = 1..800"<<endl ;
@@ -176,10 +176,10 @@ void product :: add_item(void)
             itemprice = atof(t_itemprice) ;
             if (t_itemprice[0] == '0')
                 return ;
-            if (itemprice < itemcost || itemprice > 1000)
+            if (itemprice < itemqty || itemprice > 1000)
             {
                 valid = 0 ;
-                cout <<"\7 Range = " <<itemcost <<"..1000" <<endl;
+                cout <<"\7 Range = " <<itemqty <<"..1000" <<endl;
             }
         }
         while (!valid) ;
@@ -226,7 +226,7 @@ void product :: display_record(int tcode)
         {
             cout <<"Item Code : "<<itemcode<<endl ;
             cout <<"Item Name : "<<itemname<<endl ;
-            cout <<"Item Qty : "<<itemcost<<endl ;
+            cout <<"Item Qty : "<<itemqty<<endl ;
             cout <<"Item Price : "<<itemprice<<endl ;
             break ;
         }
@@ -354,14 +354,13 @@ void product :: delete_item(void)
 }
 // THIS FUNCTION MODIFY THE RECORD FOR THE GIVEN CODE FROM
 // THE PRODUCT FILE (PRODUCT.DAT)
-//**********************************************************
 
 void product :: modify_record(int tcode)
 {
     int recno ;
     recno = recordno(tcode) ;
     int valid, t_code ;
-    char ch, t_itemcost[10], t_itemprice[10], t_itemcode[5] ;
+    char ch, t_itemqty[10], t_itemprice[10], t_itemcode[5] ;
     cout <<"<0>=Exit"<<endl ;
     cout <<"Item Code : "<<endl ;
     cout <<"Item Name : " <<endl;
@@ -434,11 +433,11 @@ void product :: modify_record(int tcode)
         valid = 1 ;
         cout <<"ENTER ITEM QTY TO ADD IN THE MENU"<<endl ;
         cout <<"Item Qty : "<<endl ;
-        gets(t_itemcost) ;
-        itemcost = atof(t_itemcost) ;
-        if (t_itemcost[0] == '0')
+        gets(t_itemqty) ;
+        itemqty = atof(t_itemqty) ;
+        if (t_itemqty[0] == '0')
             return ;
-        if (itemcost < 1 || itemcost > 800)
+        if (itemqty < 1 || itemqty > 800)
         {
             valid = 0 ;
             cout <<"\7 Range = 1..800"<<endl ;
@@ -464,10 +463,10 @@ void product :: modify_record(int tcode)
         itemprice = atof(t_itemprice) ;
         if (t_itemprice[0] == '0')
             return ;
-        if (itemprice < itemcost || itemprice > 1000)
+        if (itemprice < itemqty || itemprice > 1000)
         {
             valid = 0 ;
-            cout <<"\7 Range = " <<itemcost <<"..1000"<<endl ;
+            cout <<"\7 Range = " <<itemqty <<"..1000"<<endl ;
             getch() ;
         }
     }
@@ -484,7 +483,7 @@ void product :: modify_record(int tcode)
         return ;
     itemcode = t_code ;
     cout <<"\n" <<itemname ;
-    cout <<itemcost ;
+    cout <<itemqty ;
     cout <<itemprice ;
     fstream file ;
     file.open("PRODUCT.DAT", ios::out | ios::ate) ;
@@ -498,11 +497,8 @@ void product :: modify_record(int tcode)
     getch() ;
 }
 
-
-//**********************************************************
 // THIS FUNCTION GIVES THE CODE NO. TO MODIFY RECORD FROM
 // THE PRODUCT FILE (PRODUCT.DAT)
-//**********************************************************
 
 void product :: modify_item(void)
 {
@@ -545,11 +541,8 @@ void product :: modify_item(void)
     modify_record(tcode) ;
 }
 
-
-//****************************************************************
 // THIS FUNCTION SORT THE RECORD IN THE PRODUCT FILE (PRODUCT.DAT)
 // ACCORDING TO THE CODE NOS.
-//****************************************************************
 
 void product :: sort(void)
 {
@@ -580,7 +573,7 @@ void product :: sort(void)
     file.close() ;
 }
 // THIS FUNCTION IS THE MAIN FUNCTION CALLING THE MAIN MENU
-//**********************************************************
+
 main()
 {
     menu m ;
